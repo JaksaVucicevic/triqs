@@ -90,13 +90,22 @@ TEST(Gf, BlockOfVertexScalar) {
         EXPECT_CLOSE(rr[u][v], check(u, v, i1, i2, i3));
       }
 
+  // Should not compile
+  // B[{0,0}] (0,0,0)= 89;
+  //std::cout  <<  B[{0,0}] (0,0,0) << std::endl;
+
   // Testing iterator and const_iterator
   ITERATE_I1I2I3 {
-    for(auto & x : B) x(i1,i2,i3) = 1.0/((iw_n(i1) - 3.0)*iw_n(i2)*(iw_n(i3) + 3.0));
+    for(auto & x : B)  {
+     x [{i1,i2,i3}] = 1.0/((iw_n(i1) - 3.0)*iw_n(i2)*(iw_n(i3) + 3.0));
+     //x.on_mesh(i1,i2,i3) = 1.0/((iw_n(i1) - 3.0)*iw_n(i2)*(iw_n(i3) + 3.0));
+     //DOES NOT COMPILE
+     //x(i1,i2,i3) = 1.0/((iw_n(i1) - 3.0)*iw_n(i2)*(iw_n(i3) + 3.0));
+    }
   }
   ITERATE_I1I2I3 {
     // TODO: this assertion fails ...
-    //for(auto const& x : B) EXPECT_CLOSE(x(i1,i2,i3),1.0/((iw_n(i1) - 3.0)*iw_n(i2)*(iw_n(i3) + 3.0)));
+    for(auto const& x : B) EXPECT_CLOSE(x(i1,i2,i3),1.0/((iw_n(i1) - 3.0)*iw_n(i2)*(iw_n(i3) + 3.0)));
   }
 
   // HDF5

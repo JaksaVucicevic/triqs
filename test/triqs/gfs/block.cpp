@@ -22,6 +22,8 @@ TEST(Gf, Block) {
   EXPECT_BLOCK_GF_NEAR(B1, rw_h5(B1, "block","B1"));
 
   B1[0][0] = 98;
+  EXPECT_CLOSE(B1[0][0](0,0),98);
+
   // not implemented yet
   // B3["a"][0] = 98;
 
