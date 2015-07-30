@@ -97,7 +97,7 @@ namespace gfs {
  // -------------------------------   Free functions   --------------------------------------------------
 
  /// The number of blocks
- template <typename G> TYPE_ENABLE_IF(int, is_block_gf_or_view<G,2>) n_blocks(G const &g) { return std::get<0>(g.mesh()).size(); }
+ template <typename G> TYPE_ENABLE_IF(int, is_block_gf_or_view<G, 2>) n_blocks(G const &g) { return g.mesh().size(); }
 }
 }
 

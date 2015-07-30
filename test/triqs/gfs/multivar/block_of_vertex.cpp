@@ -65,7 +65,7 @@ TEST(Gf, BlockOfVertexScalar) {
   // TODO: these lines should compile and run
   //EXPECT_EQ(size1(B), indices1.size());
   //EXPECT_EQ(size2(B), indices2.size());
-  //EXPECT_EQ(n_blocks(B), indices1.size() * indices2.size());
+  EXPECT_EQ(n_blocks(B), indices1.size() * indices2.size());
 
   // Assign a function
   for(int u : indices1)
