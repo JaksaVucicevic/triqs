@@ -40,3 +40,4 @@ This class implements these general operations. It contains:
    det_manip
    behind
    ./../../../tutorials/c++/det_manip_tutorial
+   ../triqs/det_manip/det_manip

@@ -34,6 +34,9 @@ namespace triqs { namespace mc_tools {
 
  /**
   * \brief Generic Monte Carlo class.
+  * 
+  * TBR
+  * @include triqs/mc_tools.hpp
   */
  template<typename MCSignType, typename MCStepType = Step::Metropolis<MCSignType> >
   class mc_generic {
