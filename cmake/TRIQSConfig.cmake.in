@@ -246,47 +246,17 @@ macro (triqs_prepare_local_pytriqs python_destination)
 
   # Create the local build_pytriqs executable
   file(WRITE ${CMAKE_BINARY_DIR}/build_pytriqs
-  "#!/bin/bash
-export PYTHONPATH=${CMAKE_BINARY_DIR}:${TRIQS_PATH}/${TRIQS_PYTHON_LIB_DEST_ROOT}:$PYTHONPATH
-${TRIQS_PYTHON_INTERPRETER} $@"
-  )
+  "@BUILD_PYTRIQS_SCRIPT@")
   execute_process(COMMAND chmod 755 ${CMAKE_BINARY_DIR}/build_pytriqs)
 
   # Create the local build_ipytriqs executable
   file(WRITE ${CMAKE_BINARY_DIR}/build_ipytriqs
-  "#!/bin/bash
-export PYTHONPATH=${CMAKE_BINARY_DIR}:${TRIQS_PATH}/${TRIQS_PYTHON_LIB_DEST_ROOT}:$PYTHONPATH
-
-${TRIQS_PYTHON_INTERPRETER} -c \"
-import sys
-import IPython
-assert IPython.__version__ >= '2' , 'ipython version too low: need 2.x or higher for the notebook'
-from IPython.terminal.ipapp import launch_new_instance
-sys.exit(launch_new_instance())
-\" $@"
-  )
+  "@BUILD_IPYTRIQS_SCRIPT@")
   execute_process(COMMAND chmod 755 ${CMAKE_BINARY_DIR}/build_ipytriqs)
 
   # Create the local build_ipytriqs_notebook executable
   file(WRITE ${CMAKE_BINARY_DIR}/build_ipytriqs_notebook
-  "#!/bin/bash
-export PYTHONPATH=${CMAKE_BINARY_DIR}:${TRIQS_PATH}/${TRIQS_PYTHON_LIB_DEST_ROOT}:$PYTHONPATH
-
-${TRIQS_PYTHON_INTERPRETER} -c \"
-import sys
-sys.argv.insert(1, 'notebook')
-import IPython
-assert IPython.__version__ >= '2' , 'ipython version too low: need 2.x or higher for the notebook'
-# pylab=inline is REMOVED in 3.x version of IPython.
-if IPython.__version__ < '3.0.0':
-  sys.argv.insert(2, '--pylab=inline')
-  sys.argv.insert(3, '--MappingKernelManager.time_to_dead=3600')
-else:
-  sys.argv.insert(2, '--MappingKernelManager.time_to_dead=3600')
-from IPython.terminal.ipapp import launch_new_instance
-sys.exit(launch_new_instance())
-\" $@"
-  )
+  "@BUILD_IPYTRIQS_NOTEBOOK_SCRIPT@")
   execute_process(COMMAND chmod 755 ${CMAKE_BINARY_DIR}/build_ipytriqs_notebook)
 
   # Create sitecustomize.py file
