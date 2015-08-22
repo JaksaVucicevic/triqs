@@ -22,6 +22,8 @@
 
 #include "./impl/defs.hpp"
 #include "./gf.hpp"
+#include "./gf_view.hpp"
+#include "./gf_const_view.hpp"
 #include "./impl/misc.hpp"
 #include "./impl/gf_expr.hpp"
 #include "./impl/functions.hpp"
