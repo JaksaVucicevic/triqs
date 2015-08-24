@@ -445,6 +445,11 @@ if (Build_Tests)
  add_subdirectory(${TRIQS_SOURCE_DIR}/test ) 
 endif()
 
+##------------------------
+# Tools
+##------------------------
+add_subdirectory(tools)
+
 #------------------------
 # Documentation
 #------------------------
