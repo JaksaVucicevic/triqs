@@ -1,4 +1,14 @@
 
+# Create a temporary copy of the python modules so that we can run before installation with the test
+# same as for pytriqs
+FILE(GLOB_RECURSE all_py_files RELATIVE ${CMAKE_SOURCE_DIR}/tools *.py )
+SET(py_copy_tar  ${CMAKE_BINARY_DIR}/py_copy2.tar)
+add_custom_command (OUTPUT ${py_copy_tar} DEPENDS ${all_py_files}
+ COMMAND cd ${CMAKE_SOURCE_DIR}/tools && tar cf ${py_copy_tar} ${all_py_files} && cd ${CMAKE_BINARY_DIR}/tools && tar xf ${py_copy_tar} )
+add_custom_target(py_copy2 ALL DEPENDS ${py_copy_tar})
+
+# list all files to be installed...
+
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/clang_parser.py            DESTINATION  bin)                      
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/cpp2py/wrap_generator.py          DESTINATION  share/triqs/cpp2py)      
