@@ -151,7 +151,7 @@ int main() {
   hilbert_space HS(FOPS);
   std::cerr  << " HS dimension "<< HS.size() << std::endl;
 
-  triqs::utility::many_body_operator<double> quartic_op;
+  triqs::utility::many_body_operator quartic_op;
   quartic_op = -1.0*c_dag("up",0)*c_dag("down",1)*c("up",1)*c("down",0);
 
   state<hilbert_space,double, false> st1(HS);

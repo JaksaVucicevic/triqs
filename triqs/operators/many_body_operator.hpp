@@ -27,8 +27,8 @@
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/map.hpp>
 #include <triqs/utility/draft/numeric_ops.hpp>
+#include <triqs/utility/real_or_complex.hpp>
 #include <triqs/h5.hpp>
-
 
 namespace triqs {
 namespace utility {
@@ -36,15 +36,16 @@ namespace utility {
  /**
   * many_body_operator is a general operator in second quantification
   */
- template <typename scalar_t>
  class many_body_operator :
      // implements vector space over scalar_t operators
-     boost::additive<many_body_operator<scalar_t>>,
-     boost::multipliable<many_body_operator<scalar_t>>,
-     boost::additive<many_body_operator<scalar_t>, scalar_t>,   // op+a a+op op-a
-     //boost::subtractable2_left<many_body_operator<scalar_t>, scalar_t>, // a-op
-     boost::multipliable<many_body_operator<scalar_t>, scalar_t>, // op*a a*op op/a
-     boost::dividable<many_body_operator<scalar_t>, scalar_t> {
+     boost::additive<many_body_operator>,
+     boost::multipliable<many_body_operator>,
+     boost::additive<many_body_operator, real_or_complex>,   // op+a a+op op-a
+     //boost::subtractable2_left<many_body_operator, scalar_t>, // a-op
+     boost::multipliable<many_body_operator, real_or_complex>, // op*a a*op op/a
+     boost::dividable<many_body_operator, real_or_complex> {
+
+  using scalar_t = real_or_complex;
 
   public:
   /// The indices of the C, C^+ operators are a vector of int/string
@@ -85,12 +86,12 @@ namespace utility {
 
   monomials_map_t monomials;
 
-  friend void h5_write(h5::group g, std::string const& name, many_body_operator<double> const& op);
-  friend void h5_write(h5::group g, std::string const& name, many_body_operator<double> const& op,
+  friend void h5_write(h5::group g, std::string const& name, many_body_operator const& op);
+  friend void h5_write(h5::group g, std::string const& name, many_body_operator const& op,
                        hilbert_space::fundamental_operator_set const& fops);
 
-  friend void h5_read(h5::group g, std::string const& name, many_body_operator<double>& op);
-  friend void h5_read(h5::group g, std::string const& name, many_body_operator<double>& op,
+  friend void h5_read(h5::group g, std::string const& name, many_body_operator& op);
+  friend void h5_read(h5::group g, std::string const& name, many_body_operator& op,
                       hilbert_space::fundamental_operator_set& fops);
 
   public:
@@ -100,13 +101,7 @@ namespace utility {
   many_body_operator& operator=(many_body_operator const&) = default;
   many_body_operator& operator=(many_body_operator&&) = default;
 
-  template <typename S> many_body_operator(many_body_operator<S> const& x) { *this = x; }
   explicit many_body_operator(scalar_t const& x) { monomials.insert({{},x}); }
-
-  template <typename S> many_body_operator& operator=(many_body_operator<S> const& x) {
-   monomials.clear();
-   for (auto const& y : x.monomials) monomials.insert({y.first, y.second});
-  }
 
   /// Make a minimal fundamental_operator_set with all the canonical operators of this
   hilbert_space::fundamental_operator_set make_fundamental_operator_set() const {
@@ -174,7 +169,8 @@ namespace utility {
   //friend many_body_operator operator/ (many_body_operator const & op, scalar_t alpha) { return op/alpha; }
 
   many_body_operator& operator*=(scalar_t alpha) {
-   if (triqs::utility::is_zero(alpha)) {
+   using triqs::utility::is_zero;
+   if (is_zero(alpha)) {
     monomials.clear();
    } else {
     for (auto& m : monomials) m.second *= alpha;
@@ -246,7 +242,7 @@ namespace utility {
   // dagger
   friend many_body_operator dagger(many_body_operator const& op) {
    many_body_operator res;
-   for (auto const& x : op) res.monomials.insert({_dagger(x.monomial), triqs::utility::_conj(x.coef)});
+   for (auto const& x : op) res.monomials.insert({_dagger(x.monomial), conj(x.coef)});
    return res;
   }
 
@@ -301,7 +297,8 @@ namespace utility {
 
   // Erase a monomial with a close-to-zero coefficient.
   static void erase_zero_monomial(monomials_map_t& m, typename monomials_map_t::iterator& it) {
-   if (triqs::utility::is_zero(it->second)) m.erase(it);
+   using triqs::utility::is_zero;
+   if (is_zero(it->second)) m.erase(it);
   }
 
   friend std::ostream& operator<<(std::ostream& os, canonical_ops_t const& op) {
@@ -342,16 +339,16 @@ namespace utility {
  // ---- factories --------------
 
  // Free functions to make creation/annihilation operators
- template <typename scalar_t = double, typename... IndexTypes> many_body_operator<scalar_t> c(IndexTypes... indices) {
-  return many_body_operator<scalar_t>::make_canonical(false, typename many_body_operator<scalar_t>::indices_t{indices...});
-  // need to put many_body_operator<double>::indices_t because {} constructor is explicit !?
+ template <typename scalar_t = double, typename... IndexTypes> many_body_operator c(IndexTypes... indices) {
+  return many_body_operator::make_canonical(false, typename many_body_operator::indices_t{indices...});
+  // need to put many_body_operator::indices_t because {} constructor is explicit !?
  }
 
- template <typename scalar_t = double, typename... IndexTypes> many_body_operator<scalar_t> c_dag(IndexTypes... indices) {
-  return many_body_operator<scalar_t>::make_canonical(true, typename many_body_operator<scalar_t>::indices_t{indices...});
+ template <typename scalar_t = double, typename... IndexTypes> many_body_operator c_dag(IndexTypes... indices) {
+  return many_body_operator::make_canonical(true, typename many_body_operator::indices_t{indices...});
  }
 
- template <typename scalar_t = double, typename... IndexTypes> many_body_operator<scalar_t> n(IndexTypes... indices) {
+ template <typename scalar_t = double, typename... IndexTypes> many_body_operator n(IndexTypes... indices) {
   return c_dag<scalar_t>(indices...) * c<scalar_t>(indices...);
  }
 }

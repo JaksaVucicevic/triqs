@@ -35,7 +35,7 @@ int main() {
  }
 
  // Hamiltonian
- many_body_operator<double> H;
+ many_body_operator H;
  for (int o = 0; o < 3; ++o) {
   H += -mu * (n("up", o) + n("dn", o));
  }
