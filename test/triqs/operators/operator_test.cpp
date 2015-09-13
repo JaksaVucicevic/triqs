@@ -27,8 +27,7 @@
 //#include <boost/archive/text_iarchive.hpp>
 #include <sstream>
 
-
-using namespace triqs::utility;
+using namespace triqs::operators;
 using namespace triqs;
 using namespace triqs::hilbert_space;
 

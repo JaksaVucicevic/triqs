@@ -7,14 +7,14 @@ module.add_include("<triqs/python_tools/converters/pair.hpp>")
 module.add_include("<triqs/python_tools/converters/vector.hpp>")
 module.add_include("<triqs/python_tools/converters/variant_int_string.hpp>")
 module.add_include("<triqs/python_tools/converters/real_or_complex.hpp>")
-module.add_using("namespace triqs::utility")
+module.add_using("namespace triqs::operators")
 
 
 # The operator class
 op = class_(
         py_type = "Operator",
         c_type = "many_body_operator",
-        c_type_absolute = "triqs::utility::many_body_operator",
+        c_type_absolute = "triqs::operators::many_body_operator",
         is_printable= True,
         arithmetic = ("algebra","with_unit","with_unary_minus","real_or_complex")
         )
@@ -22,7 +22,7 @@ op = class_(
 op.add_constructor(signature="()", doc="create zero operator")
 op.add_constructor(signature="(double x)", doc="create a constant operator")
 op.add_method("bool is_zero()", doc = "Boolean : is the operator null ?")
-op.add_iterator(c_cast_type="std::pair<std::vector<std::pair<bool,many_body_operator::indices_t>>, real_or_complex>")
+op.add_iterator(c_cast_type="std::pair<std::vector<std::pair<bool,triqs::operators::indices_t>>, real_or_complex>")
 
 module.add_class(op)
 

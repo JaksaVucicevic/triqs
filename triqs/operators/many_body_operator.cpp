@@ -23,7 +23,7 @@
 #include <triqs/h5/base.hpp>
 
 namespace triqs {
-namespace utility {
+namespace operators {
 
  using namespace triqs::h5;
  using hilbert_space::fundamental_operator_set;
@@ -149,7 +149,7 @@ namespace utility {
   auto r_fops = fops.reverse_map(); // a map int -> indices inverting fops[int] -> indices
 
   for (auto const &mon : datavec) {
-   many_body_operator::monomial_t monomial;         // vector of canonical_ops_t
+   monomial_t monomial;         // vector of canonical_ops_t
    for (int i : mon.op_indices) {                           // loop over the index of the C, C^ ops of the monomial
     if (i == 0) break;                                      // means we have reach the end of the C,  C^+ list
     monomial.push_back({(i > 0), r_fops[std::abs(i) - 1]}); // add one C, C^+ op to the monomial

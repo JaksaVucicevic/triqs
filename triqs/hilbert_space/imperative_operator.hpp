@@ -80,7 +80,7 @@ template <typename HilbertType, typename ScalarType = double, bool UseMap = fals
  imperative_operator() {}
 
  // constructor from a many_body_operator, a fundamental_operator_set and a map (UseMap = true)
- imperative_operator(triqs::utility::many_body_operator const &op, fundamental_operator_set const &fops,
+ imperative_operator(triqs::operators::many_body_operator_generic<scalar_t> const &op, fundamental_operator_set const &fops,
                      hilbert_map_t hmap = hilbert_map_t(), std::vector<sub_hilbert_space> const *sub_spaces_set = nullptr) {
 
   sub_spaces = sub_spaces_set;
