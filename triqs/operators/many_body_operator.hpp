@@ -289,6 +289,7 @@ namespace operators {
   // dagger
   friend many_body_operator_generic dagger(many_body_operator_generic const& op) {
    many_body_operator_generic res;
+   using triqs::utility::conj;
    for (auto const& x : op) res.monomials.insert({_dagger(x.monomial), conj(x.coef)});
    return res;
   }
