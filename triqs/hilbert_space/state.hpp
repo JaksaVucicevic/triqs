@@ -26,7 +26,7 @@
 #include <cmath>
 #include <boost/operators.hpp>
 #include "hilbert_space.hpp"
-#include <triqs/utility/draft/numeric_ops.hpp>
+#include <triqs/utility/numeric_ops.hpp>
 
 namespace triqs {
 namespace hilbert_space {

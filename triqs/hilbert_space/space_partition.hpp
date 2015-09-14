@@ -24,7 +24,7 @@
 #include <set>
 #include <map>
 #include <utility>
-#include <triqs/utility/draft/numeric_ops.hpp>
+#include <triqs/utility/numeric_ops.hpp>
 #include <boost/pending/disjoint_sets.hpp>
 
 namespace triqs {

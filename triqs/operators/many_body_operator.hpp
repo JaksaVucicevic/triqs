@@ -26,7 +26,7 @@
 #include <boost/operators.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/map.hpp>
-#include <triqs/utility/draft/numeric_ops.hpp>
+#include <triqs/utility/numeric_ops.hpp>
 #include <triqs/utility/real_or_complex.hpp>
 #include <triqs/h5.hpp>
 

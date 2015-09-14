@@ -18,7 +18,7 @@
  * TRIQS. If not, see <http://www.gnu.org/licenses/>.
  *
  ******************************************************************************/
-#include <triqs/utility/draft/numeric_ops.hpp>
+#include <triqs/utility/numeric_ops.hpp>
 #include <complex>
 #include <iostream>
 
