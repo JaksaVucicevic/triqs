@@ -162,6 +162,7 @@ private:
 
 public:
 
+#warning I'd like to delete the default constructor; this would require a change to c++2py
   // Default constructor
   variant() : type_id(0) {
     ::new(&data) bounded_type<0>();
